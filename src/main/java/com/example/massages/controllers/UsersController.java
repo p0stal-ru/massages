@@ -31,17 +31,17 @@ public class UsersController {
         this.publicationService = publicationService;
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<User>> getAllUsers() {
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(this.userService.findAll());
-//    }
-
     @GetMapping
-    public List<User> findAll() {
-        return userService.findAll();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(this.userService.findAll());
     }
+
+//    @GetMapping
+//    public List<User> findAll() {
+//        return userService.findAll();
+//    }
 
     @PostMapping
     public ResponseEntity<?> CreateNewUser(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult,

@@ -25,8 +25,14 @@ public class PublicationService {
         this.userRepository = userRepository;
     }
 
+    public List<Publication> findAllPosts() {
+        return this.publicationRepository.findAll();
+    }
+
+
     @Transactional
     public void createPost(User user, String title) {
+        Integer id = user.getId();
         this.publicationRepository.save(new Publication(null, title, user));
     }
 

@@ -61,6 +61,16 @@ public class UserController {
         }
     }
 
+//    @PostMapping
+//    public ResponseEntity<?> CreateNewPost(@PathVariable(name = "userId") int userId,
+//                                           @Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) throws BindException {
+//        if (bindingResult.hasErrors()) {
+//            throw new BindException(bindingResult);
+//        }
+//        this.userService.createUser(userDTO.userName(), userDTO.password());
+//        return ResponseEntity.ok().build();
+//    }
+
     @DeleteMapping
     public ResponseEntity<?> deleteUser(@PathVariable("userId") int userId) {
         this.userService.deleteUser(userId);

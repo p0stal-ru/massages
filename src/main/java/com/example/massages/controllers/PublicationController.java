@@ -2,6 +2,7 @@ package com.example.massages.controllers;
 
 import com.example.massages.controllers.payload.PublicationDTO;
 import com.example.massages.controllers.payload.UserDTO;
+import com.example.massages.models.Publication;
 import com.example.massages.models.User;
 import com.example.massages.services.PublicationService;
 import com.example.massages.services.UserService;
@@ -40,12 +41,12 @@ public class PublicationController {
                 orElseThrow(() -> new NoSuchElementException("Пользователь не найден"));
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<User>> getAllUsers() {
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(this.userService.findAll());
-//    }
+    @GetMapping
+    public ResponseEntity<List<Publication>> getAllPost() {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(this.publicationService.findAllPosts());
+    }
 
     @PostMapping
     public ResponseEntity<?> CreateNewPost(@PathVariable(name = "userId") int userId,
