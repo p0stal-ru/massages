@@ -1,40 +1,46 @@
 package com.example.massages.services;
 
 
-import com.example.massages.controllers.payload.PublicationDTO;
-import com.example.massages.models.Publication;
+import com.example.massages.dto.PostDto;
+import com.example.massages.dto.UserDto;
+import com.example.massages.models.Post;
 import com.example.massages.models.User;
-import com.example.massages.repositories.PublicationRepository;
+import com.example.massages.repositories.PostRepository;
 import com.example.massages.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
-import java.util.List;
 
 @Service
-public class PublicationService {
+@RequiredArgsConstructor
+public class PostService {
 
-    private final PublicationRepository publicationRepository;
+    private final PostRepository postRepository;
+
     private final UserRepository userRepository;
 
-    @Autowired
-    public PublicationService(PublicationRepository publicationRepository, UserRepository userRepository) {
-        this.publicationRepository = publicationRepository;
-        this.userRepository = userRepository;
-    }
-
-    public List<Publication> findAllPosts() {
-        return this.publicationRepository.findAll();
-    }
-
-
     @Transactional
-    public void createPost(User user, String title) {
-        Integer id = user.getId();
-        this.publicationRepository.save(new Publication(null, title, user));
+    public String createPost(PostDto dto) {
+
+        User user = userRepository.findById(dto.getUserId()).orElse(null);
+
+        Post post = Post.builder()
+                .title(dto.getTitle())
+                .likes(0)
+                .user(user)
+                .build();
+
+        Post savedPost = postRepository.save(post);
+
+        return String.valueOf(savedPost.getId());
     }
+
+
+//    @Transactional
+//    public void createPost(User user, String title) {
+//        Integer id = user.getId();
+//        this.publicationRepository.save(new Post(null, title, user));
+//    }
 
 //    public Publication CreatePost(PublicationDTO publicationDTO, User user) {
 ////        User user = new User();

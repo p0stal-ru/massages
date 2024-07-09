@@ -2,70 +2,56 @@ package com.example.massages.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "user_t")
 public class User {
 
     @Id
-    @Column(name = "id")
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @NotEmpty(message = "Имя не должно быть пустым")
-    @Size(min = 2, max = 100, message = "Name should be between 2 and 30 characters")
-    @Column(name = "user_name", unique = true)
+    @Column(unique = true)
     private String userName;
 
-//    @Column(name = "first_name")
-//    private String firstName;
-//
-//    @Column(name = "last_name", unique = true)
-//    private String lastName;
-//
-//    @Column(name = "age")
-//    private int age;
-//
-//    @Email
-//    @Column(name = "email")
-//    private String email;
+    @Column
+    private String firstName;
 
-    @NotEmpty(message = "Пароль не должен быть пустым")
-    @Column(name = "password", length = 100)
+    @Column
+    private String lastName;
+
+    @Column
+    private Integer age;
+
+    @Email
+    @Column(unique = true)
+    private String email;
+
+    @Column(length = 100)
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    private List<Publication> publications = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
 
-//    @Column(name = "date_of_birth")
-//    @Temporal(TemporalType.DATE)
-//    @DateTimeFormat(pattern = "dd/MM/yyyy")
-//    private Date dateOfBirth;
+    @Column
+    private LocalDateTime createdAt;
 
-//    @Column(name = "updated_at")
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private LocalDateTime createAt;
 
-    public User(Integer id, String userName, String password) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
+    @PrePersist
+    public void addCreationDate() {
+        createdAt = LocalDateTime.now();
     }
+
 }
 
 
